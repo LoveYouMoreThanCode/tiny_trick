@@ -8,7 +8,7 @@ prepare 2:install git bash
  winget install --id Git.Git -e --source winget
 ```
 
-generate json file
+generate json file in 'git bash'
 ```
 make --always-make --dry-run  \
 | grep -wE 'gcc|g\+\+'  \
