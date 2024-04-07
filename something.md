@@ -39,4 +39,23 @@ yum install -y initscripts openssh-server openssl openssl-devel
 ```
 service sshd restart
 ```
- 
+# ceonos上使用jemalloc定位内存泄漏
+**生成pdf依赖软件** 
+```
+yum install ghostscript graphviz
+```
+**编译和安装jemalloc** 
+注意：脚本较多（可能会有permission denied错误），执行chmod 777 -R ./*
+```
+./configure --enable-prof
+make 
+make install
+```
+**加载jemalloc运行程序** 
+```
+MALLOC_CONF=prof:true,lg_prof_interval:20 LD_PRELOAD=/usr/local/lib/libjemalloc.so.2 程序名以及运行参数
+```
+**生成pdf分析**
+```
+jeprof --pdf 二进制名 --base=./proffile1 proffile2 > my.pdf
+```
