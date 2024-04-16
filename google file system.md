@@ -64,6 +64,57 @@
 - 数据传输使用串行传递，充分利用每个机器的出入口带宽
 - 转发data，就近转发（通过ip地址来评估距离）
 ### atomic append
+- client和chunkserver联合保证一次写入，只会完整的写入一个chunk。如果当前chunk空间不足，chunkserver会提示客户端写入到下一个chunk。
+### snapshot
+- cow
+## master operation
+### namespace management and locking
+### replica placement
+- 跨rack级数据安全
+### Creation, Re-replication, Rebalancing
+- 选择磁盘利用率低磁盘
+- 最近分配的数量考虑（压力）
+- 跨rack分布
+- 副本数丢失多的优先复制
+- 流控考虑限制集群clone数量和chunkserver克隆数量，限制chunkserver克隆带宽
+### 垃圾收集
+#### 机制
+- file级别三天回收站（可配置）
+- 通过心跳检测孤儿chunks
+#### 讨论
+- 创建一半失败的孤儿chunks可以依赖垃圾收集机制删除
+- 可以批处理
+- master空闲时候处理
+- 防止误删除
+- 缺点：空间回收不及时。提供策略供用户选择，比如可以不修复、可以不进回收站
+### 过期副本删除
+- 使用chunkversion来删除过期的副本
+## 故障容忍和诊断
+### 高可用
+- fast recovery：chunkserver and master，秒级别启动
+- chunk复制
+- master复制
+### Data Integrity
+- 使用checksum，副本对比是明知的，副本实际就可能不相同
+- 64KB一个checksum
+### 诊断工具
+- 记录所有rpc请求和响应
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
