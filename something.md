@@ -59,3 +59,25 @@ MALLOC_CONF=prof:true,lg_prof_interval:20 LD_PRELOAD=/usr/local/lib/libjemalloc.
 ```
 jeprof --pdf 二进制名 --base=./proffile1 proffile2 > my.pdf
 ```
+
+# vim配置clang-format
+**准备clang-format.py**
+拷贝到vim所在机器的目录，比如/home/fanwei
+```
+https://github.com/llvm-mirror/clang/blob/master/tools/clang-format/clang-format.py
+```
+**修改~/.vimrc**
+```
+if has('python')
+  map <C-K> :pyf /home/fanwei/clang-format.py<cr>
+  imap <C-K> <c-o>:pyf /home/fanwei/clang-format.py<cr>
+ elseif has('python3')
+  map <C-K>:pyf /home/fanwei/clang-format.py<cr>
+  imap <C-K>:pyf /home/fanwei/clang-format.py<c-o><cr>
+endif
+```
+**格式化**
+- shift + v，然后j或k选择需要格式化的代码
+- ctrl + k进行格式化
+
+
